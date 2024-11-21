@@ -1,0 +1,108 @@
+.intro {
+    width: 35%;
+    margin: 20px 0;
+}
+
+.intro-word{
+    font-family: 'Pretendard Regular';
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 31.2px;
+    text-align: center;
+
+    margin-top: 3rem;
+}
+
+.intro p {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.write-post-button{
+    width: 147px;
+    height: 87px;
+    float: right;
+    text-align: right;
+}
+
+.write-post {
+    background-color: #aca0eb;
+    color: #fff;
+    border: none;
+    margin-right: 20px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.write-post:hover{
+    background-color:#7f6aee;
+}
+
+#posts {
+    height: 2000px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.post {
+    width: 600px;
+    height: 204px;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+}
+
+.post:hover{
+  background-color: #9999;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.post-header h2 {
+    justify-content: left;
+    white-space: nowrap;          
+    overflow: hidden;             
+    text-overflow: ellipsis;                      
+    max-width: 300px;             
+    margin: 0;
+    font-size: 30px;
+}
+
+.post-header .date {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.post-info {
+    display: flex;
+    justify-content: left;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #888;
+    border-bottom: 1px solid #999;
+}
+
+.post-info > span{
+    float: left;
+    margin: 0 1rem 1rem 0;
+}
+.author {
+    display: flex;
+    align-items: center;
+}
+
+.author span {
+    font-weight: bold;
+}

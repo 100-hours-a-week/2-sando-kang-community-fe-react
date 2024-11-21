@@ -1,0 +1,137 @@
+.container {
+    width: 100%;
+    background-color: #f4f5f7;
+    border-radius: 8px;
+   
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #000000;
+}
+
+#header-container {
+    width: 40%;
+    height: 100%;
+}
+/* .title{
+    width: 90%;
+
+} */
+
+h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+}
+
+/* .icon{
+    width: 10%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+} */
+
+.back{
+    margin-left: 5%;
+}
+.page-back{
+    
+    font-size: xx-large;
+    font-weight: 700;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border-radius: 25%;
+    border: none;
+    margin-right: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.page-back:hover{
+    background: #555;
+}
+
+.icon{
+    margin-right: 5%;
+}
+.user-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 20px;
+}
+
+.user-icon:hover{
+    cursor: pointer;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"],
+textarea {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+.file-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.file-input input[type="file"] {
+    width:9% ;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #888;
+    margin-left: 10px;
+}
+
+.submit-button {
+    background-color: #ACA0EB;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #7F6AEE;
+}
