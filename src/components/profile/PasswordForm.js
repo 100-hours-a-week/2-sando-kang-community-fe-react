@@ -18,7 +18,6 @@ const PasswordForm = () => {
     let pwCheck = false;
     let cfPwCheck = false;
 
-    // 비밀번호 유효성 검사
     if (!password.trim()) {
       setPasswordError('  *비밀번호를 입력해주세요.');
     } else if (!pwValidCheck(password.trim())) {
@@ -28,7 +27,6 @@ const PasswordForm = () => {
       pwCheck = true;
     }
 
-    // 비밀번호 확인 유효성 검사
     if (!confirmPassword.trim()) {
       setConfirmPasswordError('  *비밀번호를 한번 더 입력해주세요.');
     } else if (confirmPassword.trim() !== password.trim()) {

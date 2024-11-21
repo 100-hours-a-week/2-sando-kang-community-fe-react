@@ -21,7 +21,7 @@ const CommentField = ({ comments, onDeleteComment, onEditComment }) => {
         {comments.map((comment) => (
           <div className="comment" key={comment.id}>
             <div className="comment-author">
-              <span>{comment.author}</span>
+              <span>{comment.author || "작성자 정보 없음"}</span>
               <span>{comment.date}</span>
             </div>
             <div className="comment-content">

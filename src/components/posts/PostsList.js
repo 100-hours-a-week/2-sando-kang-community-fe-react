@@ -9,7 +9,7 @@ const PostsList = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const fetchPosts = async () => {
-    if (isLoading || !hasMore) return; // 더 불러올 게시물이 없으면 중단
+    if (isLoading || !hasMore) return; 
   
     setIsLoading(true);
   
@@ -24,7 +24,7 @@ const PostsList = () => {
           setPosts((prevPosts) => [...prevPosts, ...postData]);
           setPage((prevPage) => prevPage + 1);
         }
-        setHasMore(morePostsAvailable); // 남은 게시물이 없으면 false로 설정
+        setHasMore(morePostsAvailable); 
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -37,7 +37,7 @@ const PostsList = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (
-        hasMore && // 더 불러올 게시물이 있는 경우에만
+        hasMore && 
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
         !isLoading
       ) {
@@ -50,7 +50,7 @@ const PostsList = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [hasMore, isLoading]); // 의존성 배열에 hasMore 추가
+  }, [hasMore, isLoading]); 
   
 
   return (

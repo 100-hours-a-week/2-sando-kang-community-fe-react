@@ -19,7 +19,7 @@ const ChangePasswordForm = () => {
       return;
     }
 
-    // 비밀번호 수정 API 호출 (예시)
+
     try {
       const userId = localStorage.getItem('userId');
       const response = await fetch('http://localhost:3000/api/auth/password', {

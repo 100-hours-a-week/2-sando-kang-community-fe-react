@@ -1,5 +1,3 @@
-// PostField.js
-
 import React from "react";
 import { saveLocalStorage } from '../../utils/session';
 import { handleLocation } from '../../utils/handleLocation';
@@ -14,11 +12,32 @@ const PostField = ({ post }) => {
     handleLocation("/post/edit");
   };
 
-  const handleDelete = () => {
+  const handleDelete = async() => {
     const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
     if (confirmDelete) {
-      // 삭제 로직
-      alert("게시글이 삭제되었습니다.");
+      const postId = post.post_id; 
+      try {
+        const response = await fetch(`http://localhost:3000/api/post`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            post_id: postId,
+          }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          alert('게시글이 삭제되었습니다!');
+          handleLocation("/posts");
+        } else {
+          console.error('게시글 삭제 실패:', data.message);
+          alert('게시글 삭제에 실패했습니다.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('서버 오류가 발생했습니다.');
+      }
     }
   };
 

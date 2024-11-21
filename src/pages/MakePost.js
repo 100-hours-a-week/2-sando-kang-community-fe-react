@@ -4,6 +4,8 @@ import MakePostContainer from '../components/make post/MakePostContainer';
 import MakePostHeader from '../components/header/Header5';
 import MakePostForm from '../components/make post/MakePostForm';
 
+import '../styles/make post/make post.css';
+
 const MakePost = () => {
   return (
     <MakePostContainer>

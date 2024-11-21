@@ -25,7 +25,7 @@ const SignUp = () => {
     if (file) {
       setFormData((prevData) => ({
         ...prevData,
-        profile: file, // 파일 객체 저장
+        profile: file, 
       }));
     }
   };

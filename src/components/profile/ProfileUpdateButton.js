@@ -1,11 +1,8 @@
-// ProfileUpdateButton.js
-
 import React, { useState } from 'react';
 import { getLocalStorage,saveLocalStorage } from '../../utils/session';
 const ProfileUpdateButton = ({ nickname, image, setError, error }) => {
   const [toastVisible, setToastVisible] = useState(false);
  
-  // 수정하기 버튼 클릭 시 처리
   const handleUpdate = async () => {
     
       try {
@@ -23,11 +20,10 @@ const ProfileUpdateButton = ({ nickname, image, setError, error }) => {
 
         if (response.ok) {
           alert('닉네임 수정 성공');
-          setToastVisible(true); // 수정 성공 시 toast 메시지 표시
-          setTimeout(() => setToastVisible(false), 2000); // 2초 후 toast 숨기기
+          setToastVisible(true); 
+          setTimeout(() => setToastVisible(false), 2000); 
 
-          saveLocalStorage('nickname', nickname); // 성공 시 로컬 스토리지에 저장
-        } else {
+          saveLocalStorage('nickname', nickname); 
           const errorData = await response.json();
           setError(errorData.message || '수정 실패');
         }

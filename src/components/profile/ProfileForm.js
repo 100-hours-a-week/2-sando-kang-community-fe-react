@@ -1,33 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { getLocalStorage } from '../../utils/session';
-import { nicknameValidCheck } from '../../utils/validation';
+import React from 'react';
 
-
-const ProfileForm = ({ nickname, setNickname, setError, error }) => {
-  const [localEmail, setLocalEmail] = useState('');
-
-  useEffect(() => {
-    setNickname(getLocalStorage('nickname') || '');
-    setLocalEmail(getLocalStorage('email') || '이메일');
-  }, [setNickname]);
-
-  const handleNicknameChange = (e) => {
-    const newNickname = e.target.value;
-    setNickname(newNickname);
-
-    // 유효성 검사
-    const isValid = nicknameValidCheck(newNickname, {
-      innerText: '',
-      style: { display: 'block' },
-    });
-
-    if (!isValid) {
-      setError('닉네임이 유효하지 않습니다.');
-    } else {
-      setError('');
-    }
-  };
-
+const ProfileForm = ({ nickname, setNickname, setError, error, localEmail, handleNicknameChange }) => {
   return (
     <div className="profile-field">
       <form className="profile-form">
