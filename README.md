@@ -38,7 +38,8 @@
 </p>
 
 ## 3. 진행상태 - 데이터베이스 연결 완료
-![image](https://github.com/user-attachments/assets/c404834d-1bc9-4ed2-a1cd-5ee71e04f6f1)
+![image](https://github.com/user-attachments/assets/8d8e1d8b-88b4-473b-bb66-3167a59fbf70)
+
 
 
 ## 4. 실행 방법 
