@@ -26,7 +26,7 @@ const ProfileImageUploader = ({ onImageChange }) => {
 
   return (
     <div className="profile-section">
-      <div className="profile-image" id="profileImageContainer">
+      <div className="profile-image" id="profileImageContainer" onClick={handleButtonClick}>
         {imagePreview ? (
           <img
             id="profileImage"
@@ -35,7 +35,7 @@ const ProfileImageUploader = ({ onImageChange }) => {
             style={{ display: "block", width: "100px", height: "100px", objectFit: "cover" }}
           />
         ) : (
-          <button className="upload-button" id="uploadButton" onClick={handleButtonClick}>
+          <button className="upload-button" id="uploadButton" >
             +
           </button>
         )}

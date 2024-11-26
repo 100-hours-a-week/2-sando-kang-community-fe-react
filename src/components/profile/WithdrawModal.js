@@ -1,7 +1,7 @@
 import React from 'react';
 
 const WithdrawModal = ({ visible, onConfirm, onCancel }) => {
-  if (!visible) return null;
+  if (!visible) return null; 
 
   return (
     <div className="modal">

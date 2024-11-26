@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { handleLocation } from "../../utils/handleLocation";
 import { emailValidCheck, pwValidCheck } from '../../utils/validation';
 import '../../styles/auth/signup/signupForm.css';
 
@@ -123,7 +124,7 @@ const SignUpForm = ({ onInputChange, onSubmit, onValidate, isActive }) => {
         </form>
 
         <div className="login-link">
-        <a href="/html/Log in.html">로그인하러 가기</a>
+        <div onClick={()=>{handleLocation('/')}}>로그인하러 가기</div>
         </div>
     </>
   );

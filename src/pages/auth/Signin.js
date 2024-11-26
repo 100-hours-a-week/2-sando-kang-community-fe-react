@@ -21,7 +21,6 @@ const SignUp = () => {
   };
 
   const handleImageChange = (file) => {
-    console.log("받은 파일:", file);
     if (file) {
       setFormData((prevData) => ({
         ...prevData,
@@ -35,8 +34,6 @@ const SignUp = () => {
   };
 
   const handleSignUpSubmit = async () => {
-
-
     const { email, password, nickname, profile } = formData;
 
     const formDatas = new FormData();
@@ -45,15 +42,11 @@ const SignUp = () => {
     formDatas.append("nickname", nickname);
     formDatas.append("profile", profile);
 
-    console.log(`email: ${email}`)
-    console.log(`password: ${password}`)
-    console.log(`nickname: ${nickname}`)
-    console.log(`imageFile: ${profile}`)
-
     try {
       const response = await fetch('http://localhost:3000/api/auth/signin', {
+        credentials: 'include',
         method: 'POST',
-        body: formDatas
+        body: formDatas,
       });
 
       const data = await response.json();
@@ -73,7 +66,7 @@ const SignUp = () => {
     <SignUpContainer>
       <Header title={'아무말 대잔치'}/>
       <h2>회원가입</h2>
-      <div class="signup-container">
+      <div className="signup-container">
         <ProfileImageUploader onImageChange={handleImageChange} />
         <SignUpForm
           onInputChange={handleInputChange}
