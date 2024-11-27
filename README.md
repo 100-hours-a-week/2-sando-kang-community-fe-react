@@ -43,6 +43,9 @@
 
 
 ## 4. 실행 방법 
+1. `2-sando-kang-community-be` 프로젝트 실행
+   
+2. react 프로젝트 터미널에서 아래 명령어 실행
 ```BASH
 npm install
 ```
