@@ -14,7 +14,6 @@ const MakePostHeader = ({ title }) => {
      const profileData = getLocalStorage('profile'); // localStorage에서 프로필 데이터 가져오기
      console.log(`profile: ${profileData}`);
      if (profileData) {
-      
       setProfile(profileData); 
     } 
   },[]);

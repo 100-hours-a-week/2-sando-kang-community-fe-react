@@ -1,9 +1,20 @@
 import React from 'react';
+import { handleLocation } from '../../utils/handleLocation';
+import { getLocalStorage } from "../../utils/session";
 
 function EditPostHeader({ title }) {
+
+  const image = getLocalStorage('profile');
+    console.log(`image : ${image}`);
+
+
   const handleBack = () => {
     window.history.go(-1);
   };
+
+  const handleProfile = () => {
+    handleLocation('/profile');
+  }
 
   return (
     <header className="header">
@@ -12,8 +23,8 @@ function EditPostHeader({ title }) {
         <div className="title">
           <h4>{title}</h4>
         </div>
-        <div className="avatar">
-          <img src="/assets/images/logo/board-list-icon.png" alt="board" />
+        <div className="avatar" onClick={handleProfile}>
+          <img src={image} alt="board" />
         </div>
       </div>
     </header>

@@ -39,7 +39,6 @@ const Login = () => {
       const data = await response.json();
       if (data.success) {
 
-
         alert("로그인이 정상적으로 이루어졌습니다.");
         saveLocalStorage("userId", data.data.user_id);
         saveLocalStorage("email", data.data.email);

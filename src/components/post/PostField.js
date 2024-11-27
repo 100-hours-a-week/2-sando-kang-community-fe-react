@@ -1,10 +1,12 @@
 import React from "react";
-import { saveLocalStorage } from '../../utils/session';
+import { getLocalStorage, saveLocalStorage } from '../../utils/session';
 import { handleLocation } from '../../utils/handleLocation';
 
 import '../../styles/post/post.css';
 
 const PostField = ({ post }) => {
+  const image = getLocalStorage('profile');
+  console.log(`image : ${image}`);
 
   const handleModify = () => {
     saveLocalStorage("editTitle", post.title);
@@ -73,11 +75,9 @@ const PostField = ({ post }) => {
         {/* Title */}
         <h2>{post.title}</h2>
         
-        {/* Author Section */}
         <div className="author">
           <div className="avatar">
-            {/* 여기서 이미지 추가 가능 */}
-            <img src={post.image || "/assets/images/default-avatar.png"} alt="avatar" />
+            <img src={image || "/assets/images/default-avatar.png"} alt="avatar" />
           </div>
           <div className="author-info">
             <span className="author-name">{post.author || "알 수 없음"}</span>

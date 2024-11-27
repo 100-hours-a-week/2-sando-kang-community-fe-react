@@ -10,6 +10,7 @@ const Header1 = ({ title }) => {
     const handleProfile = () => {
         handleLocation('/profile');
       }
+
   return (
     <>
     <header>
@@ -20,7 +21,7 @@ const Header1 = ({ title }) => {
                 <div class="avatar">
                     <img src={image} alt="profile" onClick={handleProfile}/>
                 </div>
-        </div>;
+        </div>
     </header> 
     </>
     )

@@ -35,8 +35,8 @@ const PostContainer = () => {
           <PostField post={postData} />
           <CommentWriteField 
             onAddComment={addComment}
-            initialComment={commentToEdit} // 수정할 댓글 전달
-            onEditComment={(comment) => setCommentToEdit(comment)} // 댓글 수정
+            initialComment={commentToEdit} 
+            onEditComment={(comment) => setCommentToEdit(comment)} 
           />
           <CommentField
             comments={comments}
@@ -44,7 +44,7 @@ const PostContainer = () => {
               setSelectedCommentId(id);
               setCommentModalOpen(true);
             }}
-            onEditComment={(comment) => setCommentToEdit(comment)} // 댓글 수정 기능
+            onEditComment={(comment) => setCommentToEdit(comment)} 
           />
           <Modal
             isOpen={modalOpen}
