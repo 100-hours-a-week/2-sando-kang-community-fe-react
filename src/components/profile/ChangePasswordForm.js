@@ -22,7 +22,7 @@ const ChangePasswordForm = () => {
 
     try {
       const userId = localStorage.getItem('userId');
-      const response = await fetch('http://localhost:3000/api/auth/password', {
+      const response = await fetch('/api/auth/password', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

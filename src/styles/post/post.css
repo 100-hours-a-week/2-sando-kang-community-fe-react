@@ -244,6 +244,13 @@ article h2 {
     align-items: center;
 }
 
+.delete-modal-group button {
+    margin: 10px;
+    width: 80px;
+    height: 50px;
+    border-radius: 9%;
+}
+
 
 
 

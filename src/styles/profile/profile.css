@@ -31,8 +31,10 @@ main{
 }
 
 .profile-section {
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -56,9 +58,10 @@ main{
 }
 
 .upload-button {
-    width: 90%;
+    width: 100px;
+    height: 100px;
     position: absolute;
-    padding-bottom: 5%;
+    padding-bottom: 0.5%;
     border: none;
     border-radius: 70%;
     background-color: #ddd;

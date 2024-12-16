@@ -43,7 +43,7 @@ const SignUp = () => {
     formDatas.append("profile", profile);
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/signin', {
+      const response = await fetch('/api/auth/signin', {
         credentials: 'include',
         method: 'POST',
         body: formDatas,

@@ -12,14 +12,16 @@ import ProfileForm from '../components/profile/ProfileForm';
 import '../styles/common/container/container_4.css';
 import '../styles/common/header/header_5.css';
 import '../styles/profile/profile.css';
+import ProfileImage from '../components/profile/ProfileImage';
 
 const Profile = () => {
-  const [isModalVisible, setModalVisible] = useState(false); // 모달 상태
-  const [nickname, setNickname] = useState(getLocalStorage('nickname') || ''); // 닉네임 상태
-  const [error, setError] = useState(''); // 에러 상태
-
+  const [isModalVisible, setModalVisible] = useState(false); 
+  const [file, setFile] = useState();
+  const [nickname, setNickname] = useState(getLocalStorage('nickname') || ''); 
+  const [error, setError] = useState(''); 
+  
   const handleWithdraw = () => {
-    setModalVisible(true); // 모달 표시
+    setModalVisible(true); 
   };
 
   const handleModalConfirm = async () => {
@@ -72,6 +74,7 @@ const Profile = () => {
   return (
     <ProfileContainer>
       <ProfileHeader title="아무말 대잔치" />
+      <ProfileImage setFile={setFile} />
       <ProfileForm
         nickname={nickname}
         setNickname={setNickname}
@@ -83,6 +86,7 @@ const Profile = () => {
         nickname={nickname}
         setError={setError}
         error={error}
+        file={file}
       />
       <WithdrawButton onWithdraw={handleWithdraw} />
       <WithdrawModal

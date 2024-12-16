@@ -106,3 +106,12 @@
 .author span {
     font-weight: bold;
 }
+
+.author .avatar {
+    width: 34px;
+    height: 34px; 
+}
+.author .avatar img {
+    width: 34px;
+    height: 34px;
+}

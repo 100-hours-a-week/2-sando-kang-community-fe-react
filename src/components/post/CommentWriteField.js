@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getLocalStorage } from "../../utils/session";
 
 const CommentWriteField = ({ onAddComment, initialComment, onEditComment }) => {
   const [commentContent, setCommentContent] = useState("");
@@ -25,24 +26,25 @@ const CommentWriteField = ({ onAddComment, initialComment, onEditComment }) => {
     }
 
     if (initialComment) {
-     
-      const response = await fetch("http://localhost:3000/api/comment", {
+      const userId = getLocalStorage('userId');
+      const response = await fetch("/api/comment", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          user_id: userId,
           comment_id: initialComment.id,
           content: commentContent,
         }),
       });
       const data = await response.json();
       if (data.success) {
-        alert("댓글이 수정되었습니다.");
+        alert(`${data.data}`);
         onEditComment(null); 
         window.location.reload();
       } else {
-        alert("댓글 수정 실패:", data.message);
+        alert(`${data.data}`);
       }
     } else {
  

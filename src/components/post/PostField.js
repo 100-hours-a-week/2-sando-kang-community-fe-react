@@ -5,8 +5,8 @@ import { handleLocation } from '../../utils/handleLocation';
 import '../../styles/post/post.css';
 
 const PostField = ({ post }) => {
-  const image = getLocalStorage('profile');
-  console.log(`image : ${image}`);
+  const postDetails = JSON.parse(localStorage.getItem('postDetails'));
+  const profile = postDetails.profile;
 
   const handleModify = () => {
     saveLocalStorage("editTitle", post.title);
@@ -18,23 +18,26 @@ const PostField = ({ post }) => {
     const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
     if (confirmDelete) {
       const postId = post.post_id; 
+      const userId = getLocalStorage('userId');
+      
       try {
-        const response = await fetch(`http://localhost:3000/api/post`, {
+        const response = await fetch(`/api/post`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            user_id: userId,
             post_id: postId,
           }),
         });
         const data = await response.json();
         if (data.success) {
-          alert('게시글이 삭제되었습니다!');
+          alert(`${data.data}`);
           handleLocation("/posts");
         } else {
-          console.error('게시글 삭제 실패:', data.message);
-          alert('게시글 삭제에 실패했습니다.');
+          console.error('게시글 삭제 실패:', data.data);
+          alert(`${data.data}`);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -44,24 +47,30 @@ const PostField = ({ post }) => {
   };
 
   const handleLike = async () => {
-    const postId = post.post_id; 
+    const postId = post.post_id;
+    const userId = getLocalStorage('userId');
+    
+    console.log(`postId: ${postId}`);
+    console.log(`userId:${userId}`);
+
     try {
-      const response = await fetch(`http://localhost:3000/api/post`, {
+      const response = await fetch(`/api/post`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          user_id: userId,
           post_id: postId,
         }),
       });
       const data = await response.json();
       if (data.success) {
-        alert('좋아요가 추가되었습니다!');
+        alert(`${data.data}`);
         window.location.reload();
       } else {
         console.error('좋아요 추가 실패:', data.message);
-        alert('좋아요 추가에 실패했습니다.');
+        alert(`${data.data}`);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -77,7 +86,7 @@ const PostField = ({ post }) => {
         
         <div className="author">
           <div className="avatar">
-            <img src={image || "/assets/images/default-avatar.png"} alt="avatar" />
+            <img src={profile || "/assets/images/default-avatar.png"} alt="avatar" />
           </div>
           <div className="author-info">
             <span className="author-name">{post.author || "알 수 없음"}</span>

@@ -9,22 +9,30 @@ const PostsList = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const fetchPosts = async () => {
-    if (isLoading || !hasMore) return; 
-  
+    if (isLoading || !hasMore) return;
+
     setIsLoading(true);
-  
+
     try {
-      const response = await fetch(`http://localhost:3000/api/post?page=${page}`);
+      const response = await fetch(`/api/post?page=${page}`);
       const data = await response.json();
-  
+
       if (data.success) {
         const { postData, hasMore: morePostsAvailable } = data.data;
-  
+
+        console.log("Fetched Posts:", postData);
+
         if (postData.length > 0) {
-          setPosts((prevPosts) => [...prevPosts, ...postData]);
-          setPage((prevPage) => prevPage + 1);
+          setPosts((prevPosts) => {
+            const newPosts = postData.filter(
+              (newPost) => !prevPosts.some((prevPost) => prevPost.id === newPost.id)
+            );
+            return [...prevPosts, ...newPosts];
+          });
+          setPage((prevPage) => prevPage + 1); 
         }
-        setHasMore(morePostsAvailable); 
+
+        setHasMore(morePostsAvailable);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -36,15 +44,15 @@ const PostsList = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (
-        hasMore && 
-        window.innerHeight + window.scrollY >= document.body.offsetHeight - 500 &&
-        !isLoading
-      ) {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const totalHeight = document.body.offsetHeight;
+    
+      if (hasMore && !isLoading && scrollPosition >= totalHeight - 200) {
+        console.log("Fetching more posts...");
         fetchPosts();
       }
     };
-  
+    fetchPosts();
     window.addEventListener("scroll", handleScroll);
   
     return () => {

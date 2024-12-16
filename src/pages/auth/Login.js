@@ -28,7 +28,8 @@ const Login = () => {
     const { email, password } = formData;
 
     try {
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+      console.log('로그인 시작');
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

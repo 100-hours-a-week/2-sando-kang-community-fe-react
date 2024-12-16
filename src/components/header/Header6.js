@@ -6,6 +6,10 @@ import { handleLocation } from '../../utils/handleLocation';
 const ProfileHeader = ({ title }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const profile = getLocalStorage('profile');
+
+  console.log(`profile: ${profile}`);
+  
   const toggleDropdown = () => {
     setDropdownVisible((prev) => !prev);
   };
@@ -16,7 +20,7 @@ const ProfileHeader = ({ title }) => {
     const userId = getLocalStorage('userId');
 
     if (userId) {
-      fetch('http://localhost:3000/api/auth/logout', {
+      fetch('/api/auth/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +51,7 @@ const ProfileHeader = ({ title }) => {
       <div className="head">
         <h1 className="title">{title}</h1>
         <div className="avatar" onClick={toggleDropdown}>
-          <img src={getLocalStorage('profile')} alt="Profile" />
+          <img src={profile} alt="Profile" />
           {dropdownVisible && (
             <div className="dropdown-menu">
               <Link to="/profile">회원정보 수정</Link>

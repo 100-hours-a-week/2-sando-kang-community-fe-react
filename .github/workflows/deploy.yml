@@ -1,0 +1,51 @@
+name: Deploy React to S3 and CloudFront
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. 코드 체크아웃
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. AWS 자격 증명 설정
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    # 3. Docker 이미지 빌드 및 파일 추출
+    - name: Build Docker image
+      run: |
+        docker build . -t react-static-build
+        docker create --name react-static-build-container react-static-build
+        docker cp react-static-build-container:/app/build ./build
+        docker rm react-static-build-container
+
+    # 4. 디버깅: 빌드 결과 확인
+    - name: Verify build directory
+      run: ls -al ./build
+
+    # 5. S3에 정적 파일 업로드
+    - name: Deploy to S3
+      run: |
+        aws s3 sync ./build/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
+    # 6. 디버깅: S3 업로드 확인
+    - name: Verify S3 sync
+      run: aws s3 ls s3://${{ secrets.S3_BUCKET_NAME }}
+
+    # 7. CloudFront 캐시 무효화
+    - name: Invalidate CloudFront cache
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+          --paths "/*"
