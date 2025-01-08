@@ -1,7 +1,7 @@
 # 커뮤니티 만들기
 카카오테크 클라우드 네이티브 in Jeju 2기 커뮤니티 과제
 
-## <div><img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=산도-커뮤니티-REACT&fontSize=60" /></div>
+## <div><img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=header&text=SQUID-WORLD&fontSize=80" /></div>
 
 - - - - - - - - - - - - - - - -
 
@@ -15,14 +15,14 @@
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-## 시연영상
-<div>https://drive.google.com/file/d/13OrKZvx92UJBFI9sVy1_J4hLt8yA09Yx/view?usp=sharing</div>
+## 오징어월드
+![image](https://github.com/user-attachments/assets/7fe36c08-ee85-4897-97c5-fcf3658635aa)
+
 
 
 ## Stack
 <div>
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white"/>
-    <img src="https://img.shields.io/badge/JS-7DF1E?style=flat&logo=jss&logoColor=white"/>
+    <img src="https://img.shields.io/badge/JS-7DF1E?style=flat&logo=Express&logoColor=white"/>
 </div> 
 
 
@@ -37,28 +37,83 @@
 
 </p>
 
-## 3. 진행상태 - 데이터베이스 연결 완료
+## 3. 데이터베이스
 ![image](https://github.com/user-attachments/assets/8d8e1d8b-88b4-473b-bb66-3167a59fbf70)
 
+## 4. 사용법
+ - 테이블 생성
+    
+    ```sql
+        -- 데이터베이스명.`user` definition
+
+        CREATE TABLE `user` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `email` varchar(30) NOT NULL,
+          `password` varchar(30) NOT NULL,
+          `nickname` varchar(10) DEFAULT NULL,
+          `profile` longblob,
+          PRIMARY KEY (`id`),
+          UNIQUE KEY `email` (`email`)
+        ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+        
+        -- 데이터베이스명.post definition
+        
+        CREATE TABLE `post` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `user_id` int NOT NULL,
+          `title` varchar(26) NOT NULL,
+          `content` text NOT NULL,
+          `image` longblob,
+          `date` datetime NOT NULL,
+          `likes` int DEFAULT '1',
+          `comments` int DEFAULT '1',
+          `views` int DEFAULT '1',
+          PRIMARY KEY (`id`),
+          KEY `user_id` (`user_id`),
+          CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-## 4. 실행 방법 
-1. `2-sando-kang-community-be` 프로젝트 실행
-   
-2. react 프로젝트 터미널에서 아래 명령어 실행
-```BASH
-npm install
-```
+        -- 데이터베이스명.sessions definition
 
-```BASH
-npm start
-```
+        CREATE TABLE `sessions` (
+          `session_id` varchar(128) NOT NULL,
+          `expires` int unsigned NOT NULL,
+          `data` text,
+          PRIMARY KEY (`session_id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    
+        -- 데이터베이스명.comment definition
 
-## 5. 이슈
-<p>현재 사용자 프로필 이미지가 화면상에 렌더링이 안되는 이슈가 존재합니다.</p>
+        CREATE TABLE `comment` (
+          `id` int NOT NULL AUTO_INCREMENT,
+          `post_id` int NOT NULL,
+          `user_id` int NOT NULL,
+          `comment` varchar(30) DEFAULT NULL,
+          `date` datetime NOT NULL,
+          PRIMARY KEY (`id`),
+          KEY `user_id` (`user_id`),
+          KEY `post_id` (`post_id`),
+          CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+          CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+    
+    
+    ```
+- .env.local 파일 작성
+   ``` env
+        DB_HOST=xxx  // 호스트명         
+        DB_USER=xxx  // 사용자명            
+        DB_PASSWORD=xxx // 비밀번호
+        DB_NAME=xxx     // 데이터베이스명 
+  ```     
 
-
-
+- 구동
+    ``` javascript
+        npm install
+        node app.js
+   ```
 --------------------------------------------------------------------------------------------
   ### github 키워드
 
