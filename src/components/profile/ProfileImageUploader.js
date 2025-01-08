@@ -47,7 +47,7 @@ const ProfileImageUploader = ({ onImageChange }) => {
           onChange={handleImageUpload}
         />
       </div>
-      <p className="profile-label">프로필 사진 변경</p>
+      <p className="profile-label">프로필 사진</p>
     </div>
   );
 };

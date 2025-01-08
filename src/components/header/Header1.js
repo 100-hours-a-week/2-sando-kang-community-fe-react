@@ -1,6 +1,6 @@
 import React from "react";
 import { getLocalStorage } from "../../utils/session";
-import { handleLocation } from "../../utils/handleLocation";
+import { useHandleLocation } from "../../utils/handleLocation";
 import "../../styles/common/header/header_1.css";
 
 const Header1 = ({ title }) => {

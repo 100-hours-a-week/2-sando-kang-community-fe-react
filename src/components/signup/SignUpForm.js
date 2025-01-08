@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { handleLocation } from "../../utils/handleLocation";
+import { useHandleLocation }from "../../utils/handleLocation";
 import { emailValidCheck, pwValidCheck } from '../../utils/validation';
 import '../../styles/auth/signup/signupForm.css';
 
@@ -15,6 +15,8 @@ const SignUpForm = ({ onInputChange, onSubmit, onValidate, isActive }) => {
   const [nicknameError, setNicknameError] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const handleLocation = useHandleLocation();
+  
   const validateForm = () => {
     let isValid = true;
 
@@ -76,56 +78,58 @@ const SignUpForm = ({ onInputChange, onSubmit, onValidate, isActive }) => {
 
   return (
     <>
-        <form className="signup-form" onSubmit={handleSubmit}>
+      <form className="profile-signup-form" onSubmit={handleSubmit}>
         <label htmlFor="email">이메일</label>
         <input
-            type="email"
-            id="email-signup"
-            placeholder="이메일을 입력하세요"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          id="email-signup"
+          placeholder="이메일을 입력하세요"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        {emailError &&<div className="error-message-signup">{emailError}</div>}
+        {emailError && <div className="error-message-signup">{emailError}</div>}
 
         <label htmlFor="password">비밀번호</label>
         <input
-            type="password"
-            id="password"
-            placeholder="비밀번호를 입력하세요"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          id="password"
+          placeholder="비밀번호를 입력하세요"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         {passwordError && <div className="error-message-signup">{passwordError}</div>}
 
         <label htmlFor="confirm-password">비밀번호 확인</label>
         <input
-            type="password"
-            id="confirm-password"
-            placeholder="비밀번호를 다시 입력하세요"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+          type="password"
+          id="confirm-password"
+          placeholder="비밀번호를 다시 입력하세요"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <div className="error-message-signup">{confirmPasswordError}</div>
+        {confirmPasswordError && <div className="error-message-signup">{confirmPasswordError}</div>}
 
         <label htmlFor="nickname">닉네임</label>
         <input
-            type="text"
-            id="nickname"
-            placeholder="닉네임을 입력하세요"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+          type="text"
+          id="profile-nickname"
+          placeholder="닉네임을 입력하세요"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
         />
-        <div className="error-message-signup">{nicknameError}</div>
+        {nicknameError && <div className="error-message-signup">{nicknameError}</div>}
 
-        <button 
-          type="submit" 
-          className={`signup-button ${isActive ? "active" : ""}`} 
-          disabled={!isFormValid}>회원가입</button>
-        </form>
-
-        <div className="login-link">
-        <div onClick={()=>{handleLocation('/')}}>로그인하러 가기</div>
-        </div>
+        <button
+          type="submit"
+          className={`signup-button ${isActive ? "active" : ""}`}
+          disabled={!isFormValid}
+        >
+          회원가입
+        </button>
+      </form>
+      <div className="login-link">
+      <div className="login-link-button" onClick={()=>{handleLocation('/login')}}>로그인하러 가기</div>
+      </div>
     </>
   );
 };

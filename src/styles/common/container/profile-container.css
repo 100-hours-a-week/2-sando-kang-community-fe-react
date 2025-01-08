@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto; 
+    background-image: url('/public/images/squid_game.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat; 
+    position: relative;
+    overflow-y: auto;
+}
+
+body::before {
+    content: '';
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.profile-container {
+    width: 100%;
+    height: auto; 
+    margin: 0 auto;
+    background-image: url('/public/images/squid_game.jpeg');
+    background: rgba(0, 0, 0, 0.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat; 
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    overflow: auto; 
+}

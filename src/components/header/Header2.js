@@ -1,5 +1,5 @@
 import React from 'react';
-import { handleLocation } from '../../utils/handleLocation';
+import { useHandleLocation } from '../../utils/handleLocation';
 import { getLocalStorage } from "../../utils/session";
 
 function EditPostHeader({ title }) {

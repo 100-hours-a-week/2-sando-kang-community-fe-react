@@ -1,5 +1,5 @@
 import React from 'react';
-import MakePostHeader from "../header/Header5";
+import ProfileHeader from "../header/profile-header";
 import PostField from "../post/PostField";
 import CommentWriteField from "../post/CommentWriteField";
 import CommentField from "../post/CommentField";
@@ -8,7 +8,6 @@ import CommentModal from "../post/CommentModal";
 import usePost from '../../hooks/usePost'; 
 
 import '../../styles/common/container/container.css';
-import '../../styles/common/header/header_5.css';
 import '../../styles/post/post.css';
 
 const PostContainer = () => {
@@ -31,7 +30,7 @@ const PostContainer = () => {
     <>
       {postData ? (
         <div className="post-container">
-          <MakePostHeader title={'아무말 대잔치'} />
+          <ProfileHeader title={'squid world'} />
           <PostField post={postData} />
           <CommentWriteField 
             onAddComment={addComment}

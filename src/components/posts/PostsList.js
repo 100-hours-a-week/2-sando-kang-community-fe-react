@@ -1,37 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { saveLocalStorage } from "../../utils/session";
-import { handleLocation } from "../../utils/handleLocation";
+import { useHandleLocation } from "../../utils/handleLocation";
+import { useInView } from "react-intersection-observer";
+import { Rings } from "react-loader-spinner"; 
 
 const PostsList = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const pageRef = useRef(1);
+  const { ref, inView } = useInView({ threshold: 0.1 });
+  const handleLocation = useHandleLocation();
 
   const fetchPosts = async () => {
     if (isLoading || !hasMore) return;
 
     setIsLoading(true);
 
-    try {
-      const response = await fetch(`/api/post?page=${page}`);
-      const data = await response.json();
+    await new Promise((resolve) => setTimeout(resolve, 2500));
 
+    try {
+      const response = await fetch(`/api/post?page=${pageRef.current}`);
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+
+      const data = await response.json();
       if (data.success) {
         const { postData, hasMore: morePostsAvailable } = data.data;
 
-        console.log("Fetched Posts:", postData);
+        setPosts((prevPosts) => [
+          ...prevPosts,
+          ...postData.filter(
+            (newPost) => !prevPosts.some((prevPost) => prevPost.id === newPost.id)
+          ),
+        ]);
 
-        if (postData.length > 0) {
-          setPosts((prevPosts) => {
-            const newPosts = postData.filter(
-              (newPost) => !prevPosts.some((prevPost) => prevPost.id === newPost.id)
-            );
-            return [...prevPosts, ...newPosts];
-          });
-          setPage((prevPage) => prevPage + 1); 
-        }
-
+        pageRef.current += 1;
         setHasMore(morePostsAvailable);
       }
     } catch (error) {
@@ -40,26 +45,17 @@ const PostsList = () => {
       setIsLoading(false);
     }
   };
-  
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.innerHeight + window.scrollY;
-      const totalHeight = document.body.offsetHeight;
-    
-      if (hasMore && !isLoading && scrollPosition >= totalHeight - 200) {
-        console.log("Fetching more posts...");
-        fetchPosts();
-      }
-    };
+    if (inView && hasMore && !isLoading) {
+      console.log("Fetching more posts...");
+      fetchPosts();
+    }
+  }, [inView, hasMore, isLoading]);
+
+  useEffect(() => {
     fetchPosts();
-    window.addEventListener("scroll", handleScroll);
-  
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [hasMore, isLoading]); 
-  
+  }, []);
 
   return (
     <div>
@@ -71,7 +67,7 @@ const PostsList = () => {
         >
           <div className="post-header">
             <h2>{post.title}</h2>
-            <span className="date">{post.date}</span>
+            <span className="date">{new Date(post.date).toISOString().slice(0, 10)}</span>
           </div>
           <div className="post-info">
             <span>좋아요 {formatNumber(post.likes)}</span>
@@ -80,28 +76,38 @@ const PostsList = () => {
           </div>
           <div className="author">
             <div className="avatar">
-              <img src={post.profile} alt="profile" />
+              <img src={post.profile} alt="" />
             </div>
             <span>{post.author || "Unknown Author"}</span>
           </div>
         </div>
       ))}
-      {isLoading && <div id="loading">Loading...</div>}
-      {!hasMore && <div id="no-more-posts">더 이상 게시글이 없습니다.</div>}
+      {isLoading && (
+        <div className="spinner-container">
+          <Rings
+            height="80"
+            width="80"
+            color="#6fd94f"
+            ariaLabel="rings-loading"
+          />
+        </div>
+      )}
+      {!hasMore && <div id="no-more-posts">더 이상 게시글이 없습니다!</div>}
+      <div ref={ref} style={{ height: "1px", marginBottom: "20px" }} />
     </div>
   );
-};
 
-const handlePostClick = (post) => {
-  saveLocalStorage("postDetails", JSON.stringify(post));
-  handleLocation("/post");
-};
+  function handlePostClick(post) {
+    saveLocalStorage("postDetails", JSON.stringify(post));
+    handleLocation("/post");
+  }
 
-const formatNumber = (num) => {
-  if (num >= 100000) return Math.floor(num / 1000) + "k";
-  if (num >= 10000) return (num / 1000).toFixed(0) + "k";
-  if (num >= 1000) return (num / 1000).toFixed(1) + "k";
-  return num.toString();
+  function formatNumber(num) {
+    if (num >= 100000) return Math.floor(num / 1000) + "k";
+    if (num >= 10000) return (num / 1000).toFixed(0) + "k";
+    if (num >= 1000) return (num / 1000).toFixed(1) + "k";
+    return num.toString();
+  }
 };
 
 export default PostsList;

@@ -1,12 +1,17 @@
-import React from "react";
-import { getLocalStorage, saveLocalStorage } from '../../utils/session';
-import { handleLocation } from '../../utils/handleLocation';
+import React, { useState } from "react";
+import { getLocalStorage, saveLocalStorage } from "../../utils/session";
+import { useHandleLocation }from "../../utils/handleLocation";
 
-import '../../styles/post/post.css';
+import "../../styles/post/post.css";
 
 const PostField = ({ post }) => {
-  const postDetails = JSON.parse(localStorage.getItem('postDetails'));
+
+  const handleLocation = useHandleLocation();
+  const postDetails = JSON.parse(localStorage.getItem("postDetails"));
   const profile = postDetails.profile;
+
+  const [likesCount, setLikesCount] = useState(post.likesCnt || 0);
+  const [userLiked, setUserLiked] = useState(false); // 좋아요 상태 관리
 
   const handleModify = () => {
     saveLocalStorage("editTitle", post.title);
@@ -14,17 +19,18 @@ const PostField = ({ post }) => {
     handleLocation("/post/edit");
   };
 
-  const handleDelete = async() => {
+  const handleDelete = async () => {
     const confirmDelete = window.confirm("게시글을 삭제하시겠습니까?");
     if (confirmDelete) {
-      const postId = post.post_id; 
-      const userId = getLocalStorage('userId');
-      
+      const postId = post.post_id;
+      const userId = getLocalStorage("userId");
+      const token = getLocalStorage("jwtToken");
       try {
         const response = await fetch(`/api/post`, {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             user_id: userId,
@@ -36,84 +42,130 @@ const PostField = ({ post }) => {
           alert(`${data.data}`);
           handleLocation("/posts");
         } else {
-          console.error('게시글 삭제 실패:', data.data);
-          alert(`${data.data}`);
+          if (data.message.status === 40104) {
+            alert(data.message.code);
+            handleLocation('/login');
+          } else {
+            alert(data.message.code);
+          }
         }
       } catch (error) {
-        console.error('Error:', error);
-        alert('서버 오류가 발생했습니다.');
+        console.error("Error:", error);
+        alert("서버 오류가 발생했습니다.");
       }
     }
   };
 
   const handleLike = async () => {
     const postId = post.post_id;
-    const userId = getLocalStorage('userId');
-    
-    console.log(`postId: ${postId}`);
-    console.log(`userId:${userId}`);
-
+    const userId = getLocalStorage("userId");
+    const token = getLocalStorage("jwtToken");
     try {
       const response = await fetch(`/api/post`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           user_id: userId,
           post_id: postId,
         }),
       });
+  
       const data = await response.json();
       if (data.success) {
-        alert(`${data.data}`);
-        window.location.reload();
+        if (userLiked) {
+          setLikesCount((prev) => prev - 1);
+        } else {
+          setLikesCount((prev) => prev + 1); 
+        }
+        setUserLiked(!userLiked); 
       } else {
-        console.error('좋아요 추가 실패:', data.message);
-        alert(`${data.data}`);
+        if (data.message.status === 40104) {
+          alert(data.message.code);
+          handleLocation('/login');
+        } else {
+          alert(data.message.code);
+        }
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('서버 오류가 발생했습니다.');
+      console.error("Error:", error);
     }
   };
+  
+
+  const splitContent = (content, chunkSize) => {
+    const chunks = [];
+    for (let i = 0; i < content.length; i += chunkSize) {
+      chunks.push(content.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
+  const formattedContent = splitContent(post.content, 25).map((line, index) => (
+    <span key={index}>
+      {line}
+      <br />
+    </span>
+  ));
 
   return (
     <div className="post-field">
       <article>
         {/* Title */}
         <h2>{post.title}</h2>
-        
+
         <div className="author">
           <div className="avatar">
-            <img src={profile || "/assets/images/default-avatar.png"} alt="avatar" />
+            <img src={profile || "/assets/images/default-avatar.png"} alt="" />
           </div>
           <div className="author-info">
             <span className="author-name">{post.author || "알 수 없음"}</span>
-            <span className="date">{post.updatePostDate || "알 수 없음"}</span>
+            <span className="date">{new Date(post.updatePostDate).toISOString().slice(0, 10)}</span>
           </div>
 
           <div className="post-actions">
-            <div className="edit" id="btnbtn" onClick={handleModify}>수정</div>
-            <div className="delete" id="btnbtn"  onClick={handleDelete}>삭제</div>
+            {post.user_id === getLocalStorage("userId") && (
+              <>
+                <div className="edit" id="btnbtn" onClick={handleModify}>
+                  수정
+                </div>
+                <div className="delete" id="btnbtn" onClick={handleDelete}>
+                  삭제
+                </div>
+              </>
+            )}
           </div>
         </div>
 
         {/* Post Content */}
         <div className="post-content">
-          <div className="post-img">
-            <img src={post.image} alt="board" />
-          </div>
+          {post.image && (
+            <div className="post-img">
+              <img src={post.image} alt="board" />
+            </div>
+          )}
           <div className="post-article">
-            <p>{post.content}</p>
+            <p>{formattedContent}</p>
           </div>
         </div>
 
         {/* Post Stats */}
         <div className="post-stats">
-          <div className="stats" id="likesCount" onClick={handleLike}>{post.likesCnt || 0} 좋아요</div>
-          <div className="stats" id="viewsCount">{post.viewsCnt || 0} 조회수</div>
-          <div className="stats" id="commentsCount">{post.commentsCnt || 0} 댓글</div>
+          <div
+            className="stats"
+            id="likesCount"
+            onClick={handleLike}
+          >
+            {likesCount} <span className="heart">❤️</span>
+          </div>
+          <div className="stats" id="viewsCount">
+            {post.viewsCnt || 0} 조회수
+          </div>
+          <div className="stats" id="commentsCount">
+            {post.commentsCnt || 0} 댓글
+          </div>
         </div>
       </article>
     </div>

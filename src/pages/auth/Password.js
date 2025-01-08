@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import ProfileContainer from '../../components/container/ProfileContainer';
-import ProfileHeader from '../../components/header/Header6'; 
+import ProfileContainer from '../../components/container/profile-container';
+import ProfileHeader from '../../components/header/profile-header'; 
 import PasswordForm from '../../components/profile/PasswordForm'; 
 import ToastMessage from '../../components/profile/ToastMessage';
 
-import '../../styles/common/container/container_4.css';
-import '../../styles/common/header/header_5.css';
+import '../../styles/common/container/profile-container.css';
 import '../../styles/profile/profile.css';
 import '../../styles/auth/password/password.css';
 
@@ -16,7 +15,7 @@ const Password = () => {
 
   return (
     <ProfileContainer>
-      <ProfileHeader title="아무말 대잔치" />
+      <ProfileHeader title="squid world" />
       <PasswordForm
         password={password}
         setPassword={setPassword}

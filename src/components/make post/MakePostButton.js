@@ -8,7 +8,7 @@ const MakePostButton = ({ disabled }) => {
       type="submit"
       disabled={disabled}
       style={{
-        backgroundColor: disabled ? '#ACA0EB' : '#7F6AEE',
+        backgroundColor: disabled ? '#f08bb2' : '#F44788',
         cursor: disabled ? 'not-allowed' : 'pointer',
       }}
     >

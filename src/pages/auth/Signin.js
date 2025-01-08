@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import SignUpContainer from "../../components/container/Container_4";
+import ProfileContainer from "../../components/container/profile-container";
 import Header from "../../components/header/Header4";
 import ProfileImageUploader from "../../components/profile/ProfileImageUploader";
 import SignUpForm from "../../components/signup/SignUpForm";
-import { handleLocation } from "../../utils/handleLocation";
+import { useHandleLocation }from "../../utils/handleLocation";
 import "../../styles/auth/signup/signup.css";
 
 const SignUp = () => {
@@ -16,6 +16,8 @@ const SignUp = () => {
     profile: ""
   });
 
+  const handleLocation = useHandleLocation();
+  
   const handleInputChange = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
@@ -51,10 +53,10 @@ const SignUp = () => {
 
       const data = await response.json();
       if (data.success) {
-        alert('회원가입이 성공적으로 이루어졌습니다.');
-        handleLocation('/');
+        alert(`${data.data}`);
+        handleLocation('/login');
       } else {
-        alert(`회원가입 실패: ${data.message.code}`);
+        alert(`${data.data}`);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -63,9 +65,9 @@ const SignUp = () => {
   };
 
   return (
-    <SignUpContainer>
-      <Header title={'아무말 대잔치'}/>
-      <h2>회원가입</h2>
+    <ProfileContainer>
+      <Header title={'squid world'}/>
+      <h2 className="signup-title">회원가입</h2>
       <div className="signup-container">
         <ProfileImageUploader onImageChange={handleImageChange} />
         <SignUpForm
@@ -75,7 +77,7 @@ const SignUp = () => {
           isActive={isFormValid}
         />
       </div>
-    </SignUpContainer>
+    </ProfileContainer>
   );
 };
 

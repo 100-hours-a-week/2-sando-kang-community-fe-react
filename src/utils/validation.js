@@ -1,9 +1,6 @@
-let nicknameError = document.getElementById('nicknameError');
-
-
 // 이메일 유효성 검사 함수
 export function emailValidCheck(email) {
-    const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/;
+    const pattern = /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+\.[A-Za-z0-9-]+$/;
     return pattern.test(email);
   }
   

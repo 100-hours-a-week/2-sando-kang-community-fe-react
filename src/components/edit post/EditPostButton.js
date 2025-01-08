@@ -1,14 +1,18 @@
 import React from 'react';
 import { saveLocalStorage, getLocalStorage } from '../../utils/session';
-import { handleLocation } from '../../utils/handleLocation';
+import { useHandleLocation } from '../../utils/handleLocation';
 
 function EditPostButton() {
+
+  const handleLocation = useHandleLocation();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const postDetails = JSON.parse(getLocalStorage('postDetails'));
 
     const userId = getLocalStorage('userId');
+    const token = getLocalStorage('jwtToken');
     const postId = postDetails.id;
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
@@ -24,17 +28,13 @@ function EditPostButton() {
     formData.append('content', content);
     formData.append('date', date);
     formData.append('image', image); 
-  
-
-    console.log(`user_id: ${userId}`);
-    console.log(`post_id: ${postId}`);
-    console.log(`title: ${title}`);
-    console.log(`content: ${content}`);
-    console.log(`date: ${date}`);
 
     try {
       const response = await fetch('/api/post', {
         method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
       const data = await response.json();
@@ -45,15 +45,16 @@ function EditPostButton() {
         saveLocalStorage('content', content);
         saveLocalStorage('updatePostDate', date);
 
-         // FileReader로 파일을 Base64로 변환 후 저장
-         const reader = new FileReader();
-         reader.onload = (e) => {
-           const base64Data = e.target.result;
-           console.log('Base64로 변환된 데이터:', base64Data);
-           saveLocalStorage('image', base64Data); // Base64 데이터 저장
-         };
-         reader.readAsDataURL(image); // Base64 변환 실행
-
+         if(image){
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const base64Data = e.target.result;
+            console.log('Base64로 변환된 데이터:', base64Data);
+            saveLocalStorage('image', base64Data);
+          };
+          reader.readAsDataURL(image); 
+         }
+      
         handleLocation('/posts');
       } else {
         alert(`${data.data}`);

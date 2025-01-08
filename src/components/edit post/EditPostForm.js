@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 function EditPostForm() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [fileName, setFileName] = useState('/assets/images/post/ 하위 이미지 선택해주세요');
+  const [fileName, setFileName] = useState('이미지를 선택해주세요');
 
   useEffect(() => {
     const postDetails = JSON.parse(localStorage.getItem('postDetails'));

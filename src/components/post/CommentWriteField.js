@@ -4,7 +4,6 @@ import { getLocalStorage } from "../../utils/session";
 const CommentWriteField = ({ onAddComment, initialComment, onEditComment }) => {
   const [commentContent, setCommentContent] = useState("");
 
-  // 댓글 수정 시 초기 댓글 내용이 textarea에 표시되도록 처리
   useEffect(() => {
     if (initialComment) {
       setCommentContent(initialComment.content); 
@@ -27,10 +26,13 @@ const CommentWriteField = ({ onAddComment, initialComment, onEditComment }) => {
 
     if (initialComment) {
       const userId = getLocalStorage('userId');
+      const token = getLocalStorage('jwtToken');
+     
       const response = await fetch("/api/comment", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           user_id: userId,
@@ -55,17 +57,20 @@ const CommentWriteField = ({ onAddComment, initialComment, onEditComment }) => {
   };
 
   return (
-    <div className="comment-field">
+    <div className="comment-write-field">
       <div className="comment-form">
-          <textarea
-            value={commentContent}
-            onChange={handleCommentChange}
-            placeholder="댓글을 남겨주세요!"
-          />
-          <button className="comment-submit" onClick={handleSubmit}>
-            {initialComment ? "댓글 수정" : "댓글 등록"}
-          </button>
-        </div>
+        <input
+          className="comment-input"
+          type="text"
+          value={commentContent}
+          onChange={handleCommentChange}
+          placeholder="댓글을 달아주세요 (최대 100자)"
+          maxLength="100"
+        />
+        <button className="comment-submit" onClick={handleSubmit}>
+          {initialComment ? "댓글 수정" : "댓글 등록"}
+        </button>
+      </div>
     </div>
   );
 };

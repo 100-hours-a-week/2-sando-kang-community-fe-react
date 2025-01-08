@@ -1,6 +1,8 @@
 .intro {
-    width: 35%;
-    margin: 20px 0;
+    width: 640px;
+    height: 244px;
+ 
+    margin: 20px 0 10px 0;
 }
 
 .intro-word{
@@ -9,7 +11,7 @@
     font-weight: 400;
     line-height: 31.2px;
     text-align: center;
-
+    color: #fff;
     margin-top: 3rem;
 }
 
@@ -19,17 +21,14 @@
 }
 
 .write-post-button{
-    width: 147px;
-    height: 87px;
     float: right;
     text-align: right;
 }
 
 .write-post {
-    background-color: #aca0eb;
+    background-color: #6fd94f;
     color: #fff;
     border: none;
-    margin-right: 20px;
     padding: 10px 20px;
     margin-top: 10px;
     cursor: pointer;
@@ -38,7 +37,7 @@
 }
 
 .write-post:hover{
-    background-color:#7f6aee;
+    background-color:#6fd94f;
 }
 
 #posts {
@@ -50,7 +49,7 @@
 .post {
     width: 600px;
     height: 204px;
-    background-color: #fff;
+    background-color: #222;
     padding: 20px;
     margin-bottom: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
@@ -78,6 +77,7 @@
     max-width: 300px;             
     margin: 0;
     font-size: 30px;
+    color: rgb(203, 203, 203);
 }
 
 .post-header .date {
@@ -115,3 +115,10 @@
     width: 34px;
     height: 34px;
 }
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  

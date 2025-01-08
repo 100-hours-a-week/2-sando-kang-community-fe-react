@@ -13,7 +13,7 @@ const ProfileForm = ({ nickname, setNickname, error, localEmail, handleNicknameC
         <label htmlFor="email">이메일</label>
         <input
           id="email"
-          value={localEmail}
+          placeholder={localEmail}
           readOnly
           className="readonly-input"
         />

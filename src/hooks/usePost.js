@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { getLocalStorage } from '../utils/session';
-import { getCurrentDate } from '../utils/getCurrentDate';
 
 const usePost = () => {
   const [postData, setPostData] = useState(null);
@@ -15,15 +14,13 @@ const usePost = () => {
       const postDetails = JSON.parse(localStorage.getItem('postDetails'));
       if (postDetails) {
         const postId = postDetails.id;
-        console.log(`post id : ${postId}`);
-        console.log(`post details : ${[postDetails.profile]}`);
+       
         try {
           const response = await fetch(`/api/post/${postId}`);
           const responseData = await response.json();
           
           if (responseData && responseData.data.postData) {
             const data = responseData.data.postData;
-            console.log(`comments : ${data.comment}`);
             setPostData(responseData.data.postData);
             setComments(responseData.data.postData.comment || []); 
           } else {
@@ -40,20 +37,21 @@ const usePost = () => {
 
   const addComment = async (commentContent) => {
     const userId = getLocalStorage("userId");
+    const token = getLocalStorage('jwtToken');
     const postDetails = JSON.parse(localStorage.getItem('postDetails'));
     const postId = postDetails.id;
-    console.log(`userId:  ${userId}`);
-    console.log(`postId:  ${postId}`);
 
     try {
       const response = await fetch("/api/comment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+         },
         body: JSON.stringify({
           user_id: userId,
           post_id: postId,
           comment: commentContent,
-          date: getCurrentDate(),
         }),
       });
       const data = await response.json();
@@ -69,16 +67,16 @@ const usePost = () => {
   };
 
   const deleteComment = async (commentId) => {
-    const postId = JSON.parse(localStorage.getItem("postDetails")).id;
-    const userId = localStorage.getItem("userId");
-
-    console.log(`userId: ${userId}`);
-    console.log(`postId: ${postId}`);
-    console.log(`commentId: ${commentId}`);
+    const postId = JSON.parse(getLocalStorage("postDetails")).id;
+    const userId = getLocalStorage("userId");
+    const token = getLocalStorage('jwtToken');
     try {
       const response = await fetch("/api/comment", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+           "Content-Type": "application/json" ,
+            Authorization: `Bearer ${token}`
+          },
         body: JSON.stringify({ user_id: userId, comment_id: `${commentId}`, post_id: postId }),
       });
       const data = await response.json();

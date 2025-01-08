@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { getLocalStorage } from '../utils/session';
-import { handleLocation } from '../utils/handleLocation';
-import ProfileContainer from '../components/container/ProfileContainer';
-import ProfileHeader from '../components/header/Header6'; 
+import { useHandleLocation } from '../utils/handleLocation';
+import ProfileContainer from '../components/container/profile-container';
+import ProfileHeader from '../components/header/profile-header'; 
 import ProfileUpdateButton from '../components/profile/ProfileUpdateButton';
 import WithdrawButton from '../components/profile/WithdrawButton';
 import WithdrawModal from '../components/profile/WithdrawModal';
 import ToastMessage from '../components/profile/ToastMessage';
 import ProfileForm from '../components/profile/ProfileForm';
 
-import '../styles/common/container/container_4.css';
-import '../styles/common/header/header_5.css';
+import '../styles/common/container/profile-container.css';
 import '../styles/profile/profile.css';
 import ProfileImage from '../components/profile/ProfileImage';
 
@@ -20,19 +19,22 @@ const Profile = () => {
   const [nickname, setNickname] = useState(getLocalStorage('nickname') || ''); 
   const [error, setError] = useState(''); 
   
+  const handleLocation = useHandleLocation();
+  
   const handleWithdraw = () => {
     setModalVisible(true); 
   };
 
-  const handleModalConfirm = async () => {
+  const handleWithdrawConfirm = async () => {
     const userId = getLocalStorage('userId'); 
-  
+    const token = getLocalStorage('jwtToken');
     if (userId) {
       try {
         const response = await fetch('/api/auth/withdraw', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ user_id: userId }), 
         });
@@ -41,10 +43,15 @@ const Profile = () => {
   
         if (data.success) {
           alert('회원 탈퇴가 완료되었습니다.');
-          setModalVisible(false); // 모달 닫기 
-          handleLocation('/');
+          setModalVisible(false);
+          handleLocation('/login');
         } else {
-          alert(`회원 탈퇴 실패: ${data.message}`);
+          if (data.message.status === 40104) {
+            alert(data.message.code);
+            handleLocation('/login');
+          } else {
+            alert(data.message.code);
+          }
         }
       } catch (error) {
         console.error('Error:', error);
@@ -73,7 +80,7 @@ const Profile = () => {
 
   return (
     <ProfileContainer>
-      <ProfileHeader title="아무말 대잔치" />
+      <ProfileHeader title="squid world" />
       <ProfileImage setFile={setFile} />
       <ProfileForm
         nickname={nickname}
@@ -91,7 +98,7 @@ const Profile = () => {
       <WithdrawButton onWithdraw={handleWithdraw} />
       <WithdrawModal
         visible={isModalVisible}
-        onConfirm={handleModalConfirm}
+        onConfirm={handleWithdrawConfirm}
         onCancel={handleModalCancel}
       />
       <ToastMessage />

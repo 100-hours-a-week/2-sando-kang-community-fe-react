@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { pwValidCheck, confirmPwValidCheck } from '../../utils/validation';  // 유효성 검사 함수
+import { pwValidCheck} from '../../utils/validation';  // 유효성 검사 함수
 import { getLocalStorage, saveLocalStorage } from '../../utils/session';
-import { handleLocation } from '../../utils/handleLocation';
-
+import { useHandleLocation } from '../../utils/handleLocation';
 const PasswordForm = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,6 +13,8 @@ const PasswordForm = () => {
     validateForm();
   }, [password, confirmPassword]);
 
+  const handleLocation = useHandleLocation();
+  
   const validateForm = () => {
     let pwCheck = false;
     let cfPwCheck = false;
@@ -48,6 +49,7 @@ const PasswordForm = () => {
 
     if (isFormValid) {
       const userId = getLocalStorage('userId');
+      const token = getLocalStorage('jwtToken');
       const newPassword = password.trim();
 
       if (userId) {
@@ -56,6 +58,7 @@ const PasswordForm = () => {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({ user_id: userId, password: newPassword }),
           });

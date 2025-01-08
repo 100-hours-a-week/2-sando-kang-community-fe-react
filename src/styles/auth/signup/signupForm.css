@@ -1,28 +1,36 @@
-.signup-form {
+.profile-signup-form {
     width: 100%;
+    gap: 10px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
 }
 
-.signup-form label {
+.profile-signup-form label {
     font-size: 14px;
-    color: #333;
+    color: #999;
 }
 
-.signup-form input {
+.profile-signup-form input {
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
+#profile-nickname{
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 0;
+}
+
 #submit-button {
     padding: 12px;
     font-size: 16px;
     color: #fff;
-    background-color: #9074d6;
+    background-color: #F44788;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -31,24 +39,45 @@
 
 .signup-button {
     width: 100%;
-    padding: 0.8rem ;
-    background-color: #ACA0EB;
+    padding: 0.6rem ;
+    background-color: #f08bb2;
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 30px;
   }
 
   .signup-button.active {
-    background-color: #7f6aee;
+    background-color: #F44788;
     cursor: pointer;
   }
 
 .login-link {
     text-align: center;
 }
+
+.login-link-button{
+    width: 120px;
+    height: 30px;
+    padding: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    color: #fff;
+}
+
+.login-link-button:hover{
+    background-color: lightgray;
+    cursor: pointer;
+    color: #000;
+  }
 
 .login-link a {
     font-size: 14px;
@@ -57,10 +86,10 @@
 }
 
 
-.error-message {
+.error-message-signup {
     text-align: left;
     color: red;
-    font-size: 0.5em;
+    font-size: 0.4em;
     height: 1em;
     margin-bottom: 15px;
   }

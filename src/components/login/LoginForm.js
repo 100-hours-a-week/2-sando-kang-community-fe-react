@@ -53,7 +53,7 @@ const LoginForm = ({ onInputChange, onSubmit, onValidate }) => {
 
   return (
     <form className="login-field" onSubmit={handleSubmit}>
-      <div className="input-group">
+      <div className="input-group-login">
         <label htmlFor="email">이메일</label>
         <input
           type="email"
@@ -66,7 +66,7 @@ const LoginForm = ({ onInputChange, onSubmit, onValidate }) => {
         {emailError && <div className="error-messages">{emailError}</div>}
       </div>
 
-      <div className="input-group">
+      <div className="input-group-login">
         <label htmlFor="password">비밀번호</label>
         <input
           type="password"

@@ -7,8 +7,9 @@ h2 {
     margin-bottom: 20px;
 }
 
-form {
-    width: 40%;
+.edit-post-form {
+    margin-top: 100px;
+    width: 30%;
     display: flex;
     flex-direction: column;
 }
@@ -17,7 +18,7 @@ label {
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 5px;
-    color: #555;
+    color: #999;
 }
 
 input[type="text"],
@@ -41,10 +42,8 @@ textarea {
     width: 100%;
 }
 
-
-
 .file{
-    width: 9%;
+    width: 13%;
 }
 
 #image{
@@ -60,7 +59,7 @@ textarea {
 }
 
 .submit-button {
-    background-color: #ACA0EB;
+    background-color: #f08bb2;
     color: #fff;
     font-size: 16px;
     padding: 10px;
@@ -71,5 +70,5 @@ textarea {
 }
 
 .submit-button:hover {
-    background-color: #7F6AEE;
+    background-color: #F44788;
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import MakePostButton from './MakePostButton';
 import useMakePostForm from '../../hooks/useMakePostForm';
-
+import '../../styles/make post/make-post-form.css'
 const MakePostForm = () => {
   const { formData, handleChange, validateForm, handleSubmit } = useMakePostForm();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className= "make-form">
       <label htmlFor="title">제목*</label>
       <input
         type="text"
@@ -23,7 +23,8 @@ const MakePostForm = () => {
       <textarea
         id="content"
         name="content"
-        placeholder="내용을 입력하세요"
+        placeholder="내용을 입력하세요 (최대 100자)"
+        maxLength="100"
         value={formData.content}
         onChange={handleChange}
         required
